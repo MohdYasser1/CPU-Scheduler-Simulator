@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from app.model.process.Process import Process
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
@@ -86,14 +87,22 @@ class MainFrame(ctk.CTkFrame):
         self.inputProcesses()
 
     def schedule(self):
-        self.processes = [i.get() for i in self.processInput.processesObject]
+        if self.schedulerType == "Priority (Preemptive)" or self.schedulerType == "Priority (Non-Preemptive)":
+            burstTime = [i[0].get() for i in self.processInput.processesObject]
+            priority = [i[1].get() for i in self.processInput.processesObject]
+            self.processes = [Process(i, j, k) for i, j, k in zip(range(len(burstTime)), burstTime, priority)]
+        else:
+            burstTime = [i.get() for i in self.processInput.processesObject]
+            self.processes = [Process(i, j) for i, j in zip(range(len(burstTime)), burstTime)]
         if self.schedulerType == "Round Robin":
             self.timeQuantum = self.processInput.timeQuantum.get()
             print(self.timeQuantum)
         self.processInput.destroy()
         self.processInput.update()
-        print(self.processes)
-        pass
+        # for process in self.processes:
+        #     print(process.getBurstTime())
+        #     print(process.getPriority())
+
 
 class ProcessInputFrame(ctk.CTkToplevel):
     def __init__(self, master, noOfProcess):
