@@ -1,3 +1,7 @@
+import sys
+import os
+
+
 from app.controller.Scheduler import *
 from app.model.process.Process import *
 from app.model.schedulingAlgorithms.FCFS import *
