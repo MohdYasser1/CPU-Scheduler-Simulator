@@ -1,5 +1,12 @@
+
 import customtkinter as ctk
-from app.model.process.Process import Process
+from CTkMessagebox import CTkMessagebox
+import threading
+
+from view.NotLiveGUI import NotLiveFrame
+from model.process.Process import Process
+from model.schedulingAlgorithms import *
+from controller.Scheduler import *
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
@@ -12,13 +19,20 @@ class MainWindow(ctk.CTk):
         self.mainFrame = MainFrame(self)
         self.mainFrame.pack(fill=ctk.BOTH, expand=True)
 
+    def notLiveMode(self, scheduler):
+        self.mainFrame.destroy()
+        self.notLiveGUI = NotLiveFrame(self, scheduler)
+        self.notLiveGUI.pack(fill=ctk.BOTH, expand=True)
 
 class MainFrame(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
-    
+
+        self.master = master
         self.grid_rowconfigure((0,3), weight=1)
         self.grid_columnconfigure((0,2), weight=1)
+
+        self.schedulerType = None
 
         self.titleLabel = ctk.CTkLabel(self, text="CPU Scheduler", font=ctk.CTkFont(size=70, weight="bold"))
         self.titleLabel.grid(row = 0, column = 0,
@@ -80,7 +94,10 @@ class MainFrame(ctk.CTkFrame):
 
     def liveMode(self):
         self.mode = "live"
-        self.inputProcesses()
+        if self.schedulerType is None:
+            CTkMessagebox(title="Error", message="Please select a scheduler")
+        else:
+            self.inputProcesses()
 
     def notLiveMode(self):
         self.mode = "not live"
@@ -88,20 +105,42 @@ class MainFrame(ctk.CTkFrame):
 
     def schedule(self):
         if self.schedulerType == "Priority (Preemptive)" or self.schedulerType == "Priority (Non-Preemptive)":
-            burstTime = [i[0].get() for i in self.processInput.processesObject]
-            priority = [i[1].get() for i in self.processInput.processesObject]
+            burstTime = [int(i[0].get()) for i in self.processInput.processesObject]
+            priority = [int(i[1].get()) for i in self.processInput.processesObject]
             self.processes = [Process(i, j, k) for i, j, k in zip(range(len(burstTime)), burstTime, priority)]
         else:
-            burstTime = [i.get() for i in self.processInput.processesObject]
+            burstTime = [int(i.get()) for i in self.processInput.processesObject]
             self.processes = [Process(i, j) for i, j in zip(range(len(burstTime)), burstTime)]
         if self.schedulerType == "Round Robin":
-            self.timeQuantum = self.processInput.timeQuantum.get()
+            self.timeQuantum = int(self.processInput.timeQuantum.get())
             print(self.timeQuantum)
         self.processInput.destroy()
         self.processInput.update()
-        # for process in self.processes:
-        #     print(process.getBurstTime())
-        #     print(process.getPriority())
+        
+        if self.schedulerType == "FCFS":
+            self.SchedulingStrategy = FCFS()
+        if self.schedulerType == "SJF (Preemptive)":
+            self.SchedulingStrategy = PSJF()
+        if self.schedulerType == "SJF (Non-Preemptive)":
+            self.SchedulingStrategy = NPSJF()
+        if self.schedulerType == "Priority (Preemptive)":
+            self.SchedulingStrategy = PP()
+        if self.schedulerType == "Priority (Non-Preemptive)":
+            self.SchedulingStrategy = NPP()
+        if self.schedulerType == "Round Robin":
+            self.SchedulingStrategy = RR()
+        
+
+        if self.mode == "live":
+            self.scheduler = Scheduler(self.SchedulingStrategy, self.processes, isLive=True)
+        elif self.mode == "not live":
+            self.scheduler = Scheduler(self.SchedulingStrategy, self.processes, isLive=False)
+            self.master.notLiveMode(self.scheduler)
+            # self.notLiveGUI.grid(column=0,row=0, sticky='nsew')
+
+
+            # while(True):
+            #     pass
 
 
 class ProcessInputFrame(ctk.CTkToplevel):
@@ -149,8 +188,3 @@ class ProcessRRInputFrame(ProcessInputFrame):
         super().__init__(master, noOfProcess)
         self.timeQuantum = ctk.CTkEntry(self, placeholder_text="Enter Time Quantum")
         self.timeQuantum.grid(row = noOfProcess+2, column = 0, columnspan=2)
-
-
-if __name__ == "__main__":
-    main = MainWindow()
-    main.mainloop()
