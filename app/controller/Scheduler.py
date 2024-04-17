@@ -54,7 +54,7 @@ class Scheduler:
         return False
 
     def progress(self):
-        self.strategy.run(self)
+        return self.strategy.run(self)
 
     def getAverageTurnaroundTime(self):
         total = 0

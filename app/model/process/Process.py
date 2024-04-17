@@ -55,7 +55,7 @@ class Process:
 
     def execute(self, scheduler):
         if self.burstTime >= scheduler.get_quantumTime():
-            if scheduler.isLive():
+            if scheduler.isLive:
                 time.sleep(scheduler.get_quantumTime())
             scheduler.set_elapsedTime(
                 scheduler.get_elapsedTime() + scheduler.get_quantumTime()

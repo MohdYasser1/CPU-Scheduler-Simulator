@@ -1,6 +1,7 @@
 import customtkinter as ctk
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import matplotlib.patches as mpatches
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import threading
 
@@ -27,17 +28,24 @@ class NotLiveFrame(ctk.CTkFrame):
         fig.set_size_inches(8,4)
 
         color_cycle = iter(cm.tab10.colors)
+
+        legend_patches = []
+        xrange = [0]
         for i, (process, slices) in enumerate(processTime):
             start = 0
             colour = next(color_cycle)
+            legend_patches.append(mpatches.Patch(color=colour, label=f"Process{process.getProcessId()}"))
             if process is not None:
                 for (sliceStart, sliceEnd) in slices:
-                    ax.barh(0, sliceEnd - sliceStart, left=sliceStart, height=0.5, color=colour, edgecolor='black')
-                    ax.text((sliceStart + sliceEnd)/2, 0, "Process"+str(process.getProcessId()), ha='center', va='center', color='black')
+                    ax.barh(0, sliceEnd - sliceStart, left=sliceStart, height=0.25, color=colour)
+                    # ax.text((sliceStart + sliceEnd)/2, 0, "Process"+str(process.getProcessId()), ha='center', va='center', color='black')
                     start = sliceEnd
-        ax.xaxis.grid('on')
+            xrange.append(start)
+        ax.set_xticks(xrange)
+        ax.xaxis.grid(True)
         plt.yticks([])
-        # fig.subplots_adjust(left = 0, right = 1, bottom  = 0, top = 1, wspace=0, hspace=0)
+        ax.legend(handles=legend_patches, loc='upper right', bbox_to_anchor=(1, 1))
+        ax.set_ylim(-0.25, 0.5)
         canvas = FigureCanvasTkAgg(fig, master=self)
         canvas.draw()
         canvas.get_tk_widget().grid(row = 1, column = 0, columnspan=2, pady=10)
@@ -53,35 +61,46 @@ class NotLiveFrame(ctk.CTkFrame):
 
     def calculateProcessTime(self):
         i = 0
-        runningP = None
-        time = []
+        runningP = self.scheduler.progress()
+        time = [(runningP, [(i, i+1)])]
 
         while(True):
-            for process in self.scheduler.get_processes():
-                if process.getStatus() == Status.RUNNING:
-                    runningP = process
+            # for process in self.scheduler.get_processes():
+            #     if process.getStatus() == Status.RUNNING:
+            #         runningP = process
+            #         break
+            #     else:
+            #         runningP = None
+            # if runningP == None:
+            #     if not self.scheduler.has_processes():
+            #         break
+            #     self.scheduler.progress()
+            #     i+=1
+            #     continue
+            # if len(time) == 0:
+            #     time.append((runningP, [(i, i+1)]))
+            # else:
+            #     for j, (process, slices) in enumerate(time):
+            #         if process == runningP:
+            #             slices.append((i, i+1))
+            #             time[j] = (process, slices)
+            #             break
+            #         else:
+            #             time.append((runningP, [(i, i+1)]))
+            # if not self.scheduler.has_processes():
+            #     break
+
+            
+            for j, (process, slices) in enumerate(time):
+                if process.getProcessId() == runningP.getProcessId():
+                    slices.append((i, i+1))
+                    time[j] = (process, slices)
                     break
-                else:
-                    runningP = None
-            if runningP == None:
-                if not self.scheduler.has_processes():
-                    break
-                self.scheduler.progress()
-                i+=1
-                continue
-            if len(time) == 0:
-                time.append((runningP, [(i, i+1)]))
             else:
-                for j, (process, slices) in enumerate(time):
-                    if process == runningP:
-                        slices.append((i, i+1))
-                        time[j] = (process, slices)
-                        break
-                    else:
-                        time.append((runningP, [(i, i+1)]))
+                time.append((runningP, [(i, i+1)]))
             if not self.scheduler.has_processes():
                 break
 
-            self.scheduler.progress()
             i+=1
+            runningP = self.scheduler.progress()
         return time
