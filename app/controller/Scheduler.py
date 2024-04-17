@@ -1,19 +1,22 @@
-from model.schedulingAlgorithms.SchedulingStrategy import *
-from model.schedulingAlgorithms.FCFS import *
-from model.process.Status import *
-import time
+from ..model.schedulingAlgorithms.SchedulingStrategy import *
+from ..model.schedulingAlgorithms.FCFS import *
+from ..model.process.Status import *
 
 
 class Scheduler:
 
     def __init__(
-        self, strategy: SchedulingStrategy = FCFS(), processes=list(), quantumTime=1, isLive=True
+        self,
+        strategy: SchedulingStrategy = FCFS(),
+        processes=list(),
+        quantumTime=1,
+        live=True,
     ):
         self.strategy = strategy
         self.processes = processes
         self.quantumTime = quantumTime
         self.elapsedTime = 0
-        self.isLive = isLive
+        self.live = live
 
     def set_strategy(self, strategy: SchedulingStrategy):
         self.strategy = strategy

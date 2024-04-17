@@ -23,7 +23,7 @@ class RR(SchedulingStrategy):
                     and process.getArrivalTime() <= scheduler.get_elapsedTime()
                 ):
                     process.setStatus(Status.RUNNING)
-                    break
+                    return process
 
         for process in processes:
 
@@ -37,3 +37,12 @@ class RR(SchedulingStrategy):
                 processes.remove(process)
                 processes.append(process)
                 return process
+
+        # if processes do not arrive yet, increment the elapsed time by the quantum time
+        scheduler.set_elapsedTime(
+            scheduler.get_elapsedTime() + scheduler.get_quantumTime()
+        )
+        if scheduler.isLive():
+            time.sleep(scheduler.get_quantumTime())
+
+        return None
