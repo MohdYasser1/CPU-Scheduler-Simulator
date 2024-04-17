@@ -39,6 +39,12 @@ class Scheduler:
     def get_elapsedTime(self):
         return self.elapsedTime
 
+    def set_live(self, live):
+        self.live = live
+
+    def isLive(self):
+        return self.live
+
     def add_process(self, process):
         self.processes.append(process)
 

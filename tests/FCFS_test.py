@@ -1,35 +1,39 @@
+import sys
+import os
+
+
 from app.controller.Scheduler import *
 from app.model.process.Process import *
 from app.model.schedulingAlgorithms.FCFS import *
 
 # FCFS with 5 Processes
-# print("///// Test(1) /////")
+print("///// Test(1) /////")
 
-# p1 = Process(1, 5, 1, 0)
-# p2 = Process(2, 8, 1, 1)
-# p3 = Process(3, 7, 1, 2)
-# p4 = Process(4, 3, 1, 3)
-# p5 = Process(5, 4, 1, 4)
+p1 = Process(1, 5, 1, 0)
+p2 = Process(2, 8, 1, 1)
+p3 = Process(3, 7, 1, 2)
+p4 = Process(4, 3, 1, 3)
+p5 = Process(5, 4, 1, 4)
 
-# processes = [p1, p2, p3, p4, p5]
-# SchedulingStrategy = FCFS()
-# scheduler = Scheduler(SchedulingStrategy, processes)
+processes = [p1, p2, p3, p4, p5]
+SchedulingStrategy = FCFS()
+scheduler = Scheduler(SchedulingStrategy, processes)
 
-# while True:
-#     print("=====================================")
-#     print(f"Elapsed Time: {scheduler.get_elapsedTime()}")
-#     currentProcesses = scheduler.get_processes()
-#     for process in currentProcesses:
-#         print(process)
+while True:
+    print("=====================================")
+    print(f"Elapsed Time: {scheduler.get_elapsedTime()}")
+    currentProcesses = scheduler.get_processes()
+    for process in currentProcesses:
+        print(process)
 
-#     if not scheduler.has_processes():
-#         break
+    if not scheduler.has_processes():
+        break
 
-#     scheduler.progress()
+    scheduler.progress()
 
-# print("=====================================")
-# print(f"Average turnaround time: {scheduler.getAverageTurnaroundTime()}")
-# print(f"Average waiting time: {scheduler.getAverageWaitingTime()}")
+print("=====================================")
+print(f"Average turnaround time: {scheduler.getAverageTurnaroundTime()}")
+print(f"Average waiting time: {scheduler.getAverageWaitingTime()}")
 
 # FCFS with 6 Processes and adding a Process in the middle of execution
 print("///// Test(2) /////")
@@ -61,6 +65,38 @@ while True:
         break
 
     scheduler.progress()
+
+print("=====================================")
+print(f"Average turnaround time: {scheduler.getAverageTurnaroundTime()}")
+print(f"Average waiting time: {scheduler.getAverageWaitingTime()}")
+
+
+# FCFS with 5 Processes and non live scheduler
+print("///// Test(3) /////")
+
+p1 = Process(1, 5, 1, 0)
+p2 = Process(2, 8, 1, 1)
+p3 = Process(3, 7, 1, 2)
+p4 = Process(4, 3, 1, 3)
+p5 = Process(5, 4, 1, 4)
+
+processes = [p1, p2, p3, p4, p5]
+SchedulingStrategy = FCFS()
+scheduler = Scheduler(SchedulingStrategy, processes)
+scheduler.set_live(False)
+
+while True:
+    if not scheduler.has_processes():
+        break
+
+    scheduler.progress()
+
+
+print("=====================================")
+print(f"Elapsed Time: {scheduler.get_elapsedTime()}")
+currentProcesses = scheduler.get_processes()
+for process in currentProcesses:
+    print(process)
 
 print("=====================================")
 print(f"Average turnaround time: {scheduler.getAverageTurnaroundTime()}")

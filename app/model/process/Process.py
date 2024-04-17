@@ -54,22 +54,23 @@ class Process:
         return self.completionTime - self.arrivalTime - self.workingTime
 
     def execute(self, scheduler):
-        self.status = Status.RUNNING
         if self.burstTime >= scheduler.get_quantumTime():
-            time.sleep(scheduler.get_quantumTime())
+            if scheduler.isLive():
+                time.sleep(scheduler.get_quantumTime())
             scheduler.set_elapsedTime(
                 scheduler.get_elapsedTime() + scheduler.get_quantumTime()
             )
             self.burstTime -= scheduler.get_quantumTime()
 
         else:
-            time.sleep(self.burstTime)
+            if scheduler.isLive():
+                time.sleep(self.burstTime)
             scheduler.set_elapsedTime(scheduler.get_elapsedTime() + self.burstTime)
             self.burstTime = 0
 
         if self.burstTime == 0:
-            self.completionTime = scheduler.get_elapsedTime()
             self.status = Status.COMPLETED
+            self.completionTime = scheduler.get_elapsedTime()
 
     def getStatus(self):
         return self.status
