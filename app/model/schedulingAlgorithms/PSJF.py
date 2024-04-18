@@ -24,7 +24,7 @@ class PSJF(SchedulingStrategy):
                     and process.getArrivalTime() <= scheduler.get_elapsedTime()
                 ):
                     process.setStatus(Status.RUNNING)
-                    return process
+                    break
 
         # execute the running process
         for process in processes:

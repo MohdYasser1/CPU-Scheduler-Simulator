@@ -1,6 +1,6 @@
-from ..model.schedulingAlgorithms.SchedulingStrategy import *
-from ..model.schedulingAlgorithms.FCFS import *
-from ..model.process.Status import *
+from model.schedulingAlgorithms.SchedulingStrategy import *
+from model.schedulingAlgorithms.FCFS import *
+from model.process.Status import *
 
 
 class Scheduler:

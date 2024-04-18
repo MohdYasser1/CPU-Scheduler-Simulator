@@ -29,6 +29,9 @@ class Process:
     def getBurstTime(self):
         return self.burstTime
 
+    def getWorkingTime(self):
+        return self.workingTime
+
     def setPriority(self, priority):
         self.priority = priority
 
@@ -55,7 +58,7 @@ class Process:
 
     def execute(self, scheduler):
         if self.burstTime >= scheduler.get_quantumTime():
-            if scheduler.isLive:
+            if scheduler.isLive():
                 time.sleep(scheduler.get_quantumTime())
             scheduler.set_elapsedTime(
                 scheduler.get_elapsedTime() + scheduler.get_quantumTime()

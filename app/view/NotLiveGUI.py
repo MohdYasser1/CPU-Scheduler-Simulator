@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.patches as mpatches
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import threading
 
 from model.process.Status import Status
 
@@ -64,33 +63,7 @@ class NotLiveFrame(ctk.CTkFrame):
         runningP = self.scheduler.progress()
         time = [(runningP, [(i, i+1)])]
 
-        while(True):
-            # for process in self.scheduler.get_processes():
-            #     if process.getStatus() == Status.RUNNING:
-            #         runningP = process
-            #         break
-            #     else:
-            #         runningP = None
-            # if runningP == None:
-            #     if not self.scheduler.has_processes():
-            #         break
-            #     self.scheduler.progress()
-            #     i+=1
-            #     continue
-            # if len(time) == 0:
-            #     time.append((runningP, [(i, i+1)]))
-            # else:
-            #     for j, (process, slices) in enumerate(time):
-            #         if process == runningP:
-            #             slices.append((i, i+1))
-            #             time[j] = (process, slices)
-            #             break
-            #         else:
-            #             time.append((runningP, [(i, i+1)]))
-            # if not self.scheduler.has_processes():
-            #     break
-
-            
+        while(True):            
             for j, (process, slices) in enumerate(time):
                 if process.getProcessId() == runningP.getProcessId():
                     slices.append((i, i+1))
@@ -100,7 +73,8 @@ class NotLiveFrame(ctk.CTkFrame):
                 time.append((runningP, [(i, i+1)]))
             if not self.scheduler.has_processes():
                 break
-
+            runningP = self.scheduler.progress()                
             i+=1
-            runningP = self.scheduler.progress()
+            
         return time
+

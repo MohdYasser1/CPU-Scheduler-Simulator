@@ -25,25 +25,7 @@ class NPP(SchedulingStrategy):
                 process.getStatus() == Status.RUNNING
                 and process.getArrivalTime() <= scheduler.get_elapsedTime()
             ):
-                if process.getBurstTime() >= scheduler.get_quantumTime():
-                    time.sleep(scheduler.get_quantumTime())
-                    scheduler.set_elapsedTime(
-                        scheduler.get_elapsedTime() + scheduler.get_quantumTime()
-                    )
-                    process.setBurstTime(
-                        process.getBurstTime() - scheduler.get_quantumTime()
-                    )
+                process.execute(scheduler)
 
-                else:
-                    time.sleep(process.getBurstTime())
-                    scheduler.set_elapsedTime(
-                        scheduler.get_elapsedTime() + process.getBurstTime()
-                    )
-                    process.setBurstTime(0)
-
-                if process.getBurstTime() == 0:
-                    process.setStatus(Status.COMPLETED)
-                    process.setCompletionTime(scheduler.get_elapsedTime())
-
-                break
+                return process
 

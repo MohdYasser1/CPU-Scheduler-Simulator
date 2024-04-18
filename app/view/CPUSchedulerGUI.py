@@ -3,8 +3,14 @@ from CTkMessagebox import CTkMessagebox
 import threading
 
 from view.NotLiveGUI import NotLiveFrame
+from view.LiveGUI import LiveFrame
 from model.process.Process import Process
 from model.schedulingAlgorithms import *
+from model.schedulingAlgorithms.RR import RR
+from model.schedulingAlgorithms.PSJF import PSJF
+from model.schedulingAlgorithms.NPSJF import NPSJF
+from model.schedulingAlgorithms.PP import PP
+from model.schedulingAlgorithms.NPP import NPP
 from controller.Scheduler import *
 
 ctk.set_appearance_mode("dark")
@@ -14,7 +20,7 @@ ctk.set_default_color_theme("blue")
 class MainWindow(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.geometry("800x500")
+        self.geometry("1000x600")
         self.title("CPU Scheduler Simulator")
         self.mainFrame = MainFrame(self)
         self.mainFrame.pack(fill=ctk.BOTH, expand=True)
@@ -23,6 +29,11 @@ class MainWindow(ctk.CTk):
         self.mainFrame.destroy()
         self.notLiveGUI = NotLiveFrame(self, scheduler)
         self.notLiveGUI.pack(fill=ctk.BOTH, expand=True)
+    
+    def liveMode(self, scheduler, schedulerType, noOfProcess):
+        self.mainFrame.destroy()
+        self.liveGUI = LiveFrame(self, scheduler, schedulerType, noOfProcess)
+        self.liveGUI.pack(fill=ctk.BOTH, expand=True)
 
 
 class MainFrame(ctk.CTkFrame):
@@ -161,16 +172,14 @@ class MainFrame(ctk.CTkFrame):
             self.scheduler = Scheduler(
                 self.SchedulingStrategy, self.processes, live=True
             )
+            self.master.liveMode(self.scheduler, self.schedulerType, len(self.processes))
         elif self.mode == "not live":
             self.scheduler = Scheduler(
                 self.SchedulingStrategy, self.processes, live=False
             )
+            if self.schedulerType == "Round Robin":
+                self.scheduler.set_quantumTime(self.timeQuantum)
             self.master.notLiveMode(self.scheduler)
-            # self.notLiveGUI.grid(column=0,row=0, sticky='nsew')
-
-            # while(True):
-            #     pass
-
 
 class ProcessInputFrame(ctk.CTkToplevel):
     def __init__(self, master, noOfProcess):
