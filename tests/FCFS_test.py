@@ -2,6 +2,14 @@ import sys
 import os
 
 
+import sys
+import os
+# Add the parent directory to the Python path using forward slashes or raw string literal
+parent_dir = r'C:/Users/ahmed/OneDrive/Desktop/CSE 25/Senior 1/SPRING 2024/Operating Systems/project/CPU-Scheduler-Simulator'
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), parent_dir)))
+
+
+
 from app.controller.Scheduler import *
 from app.model.process.Process import *
 from app.model.schedulingAlgorithms.FCFS import *
@@ -72,7 +80,7 @@ import threading
 # print(f"Average waiting time: {scheduler.getAverageWaitingTime()}")
 
 
-# FCFS with 5 Processes and non live scheduler
+#FCFS with 5 Processes and non live scheduler
 print("///// Test(3) /////")
 
 p1 = Process(1, 5, 1, 0)
@@ -127,18 +135,18 @@ print("///// Test(3) /////")
 
 #     scheduler.progress()
 
-# print("=====================================")
-# print(f"Average turnaround time: {scheduler.getAverageTurnaroundTime()}")
-# print(f"Average waiting time: {scheduler.getAverageWaitingTime()}")
+#     print("=====================================")
+#     print(f"Average turnaround time: {scheduler.getAverageTurnaroundTime()}")
+#     print(f"Average waiting time: {scheduler.getAverageWaitingTime()}")
 
 
-# def run_scheduler(scheduler):
-#     while True:
-#         print("=====================================")
-#         print(f"Elapsed Time: {scheduler.get_elapsedTime()}")
-#         currentProcesses = scheduler.get_processes()
-#         for process in currentProcesses:
-#             print(process)
+def run_scheduler(scheduler):
+    while True:
+        print("=====================================")
+        print(f"Elapsed Time: {scheduler.get_elapsedTime()}")
+        currentProcesses = scheduler.get_processes()
+        for process in currentProcesses:
+            print(process)
 
 #         if not scheduler.has_processes():
 #             break
@@ -171,6 +179,6 @@ print("///// Test(3) /////")
 # print("Scheduler is running in the background...")
 # print("Main thread continues...")
 
-# # Wait for some time and add process to the scheduler while it is running
-# time.sleep(7)
-# scheduler.add_process(Process(6, 6, 1, 7))
+# Wait for some time and add process to the scheduler while it is running
+time.sleep(7)
+scheduler.add_process(Process(6, 6, 1, 7))
