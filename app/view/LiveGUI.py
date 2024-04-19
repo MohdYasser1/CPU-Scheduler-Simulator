@@ -102,9 +102,8 @@ class LiveFrame(ctk.CTkFrame):
         self.canvas.get_tk_widget().grid(row = 0, column = 0)
 
         # Start Simulation
-        self.runningP = self.scheduler.progress()
-        self.time = [(self.runningP, [(self.currentTime, self.currentTime+1)])]
-        self.startSimulation()
+        self.time = []
+        self.after(1000, self.startSimulation)
         
 
     def addProcess(self):
@@ -137,6 +136,9 @@ class LiveFrame(ctk.CTkFrame):
         
 
     def startSimulation(self):
+        self.runningP = self.scheduler.progress()
+        if len(self.time) == 0:
+            self.time.append((self.runningP, [(self.currentTime, self.currentTime+1)]))
         for j, (process, slices) in enumerate(self.time):
             if self.runningP is not None:
                 if process.getProcessId() == self.runningP.getProcessId():
@@ -147,7 +149,6 @@ class LiveFrame(ctk.CTkFrame):
             self.time.append((self.runningP, [(self.currentTime, self.currentTime+1)]))
         if not self.scheduler.has_processes():
             self.stopSimulation()
-        self.runningP = self.scheduler.progress()
         self.currentTime += 1
     
         self.updateGUI(self.time)
@@ -169,7 +170,7 @@ class LiveFrame(ctk.CTkFrame):
                     start = sliceEnd
             self.xrange.append(start)
         self.ax.set_xticks(self.xrange)
-        self.ax.legend(handles=self.legend_patches, loc='upper right', bbox_to_anchor=(1, 1))
+        self.ax.legend(handles=self.legend_patches, loc='upper right')
         
         self.canvas.draw()
 
