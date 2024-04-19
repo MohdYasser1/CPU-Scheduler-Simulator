@@ -147,7 +147,9 @@ class MainFrame(ctk.CTkFrame):
                 for i, j, k in zip(range(len(burstTime)), burstTime, priority)
             ]
         else:
-            burstTime = [int(i.get()) for i in self.processInput.processesObject]
+            #burstTime = [int(i.get()) for i in self.processInput.processesObject]
+            burstTime = [int(process[1].get()) for process in self.processInput.processesObject]
+
             self.processes = [
                 Process(i, j) for i, j in zip(range(len(burstTime)), burstTime)
             ]
@@ -185,37 +187,6 @@ class MainFrame(ctk.CTkFrame):
                 self.scheduler.set_quantumTime(self.timeQuantum)
             self.master.notLiveMode(self.scheduler)
 
-class ProcessInputFrame(ctk.CTkToplevel):
-    def __init__(self, master, noOfProcess):
-        super().__init__(master)
-        self.geometry("400x300")
-        self.title("Process Input")
-        self.noOfProcess = noOfProcess
-        self.processesObject = []
-        self.grid_rowconfigure((0, self.noOfProcess + 2), weight=1)
-        self.grid_columnconfigure((0, 1), weight=1)
-        self.burstTimeLayout = ctk.CTkLabel(
-            self, text="Burst Time", font=ctk.CTkFont(size=25)
-        )
-        self.burstTimeLayout.grid(row=0, column=1)
-        self.addProcess()
-        self.scheduleButton = ctk.CTkButton(
-            self, text="Schedule", command=master.schedule
-        )
-        self.scheduleButton.grid(
-            row=self.noOfProcess + 3, column=0, columnspan=2, pady=(0, 10), sticky="s"
-        )
-
-    def addProcess(self):
-        for i in range(1, self.noOfProcess + 1):
-            processId = ctk.CTkLabel(
-                self, text="P" + str(i - 1) + ":", font=ctk.CTkFont(size=20)
-            )
-            processId.grid(row=i, column=0, padx=(0, 10), sticky="e")
-            burstTime = ctk.CTkEntry(self, placeholder_text="Enter Burst Time")
-            burstTime.grid(row=i, column=1, pady=(0, 2))
-            self.processesObject.append(burstTime)
-
 # class ProcessInputFrame(ctk.CTkToplevel):
 #     def __init__(self, master, noOfProcess):
 #         super().__init__(master)
@@ -224,60 +195,118 @@ class ProcessInputFrame(ctk.CTkToplevel):
 #         self.noOfProcess = noOfProcess
 #         self.processesObject = []
 #         self.grid_rowconfigure((0, self.noOfProcess + 2), weight=1)
-#         self.grid_columnconfigure((0, 2), weight=1)
-#         self.processIdLayout = ctk.CTkLabel(
-#             self, text="Process ID", font=ctk.CTkFont(size=20)
-#         )
-#         self.processIdLayout.grid(row=0, column=0, padx=(0, 10), sticky="e")
-#         self.arrivalTimeLayout = ctk.CTkLabel(
-#             self, text="Arrival Time", font=ctk.CTkFont(size=20)
-#         )
-#         self.arrivalTimeLayout.grid(row=0, column=1, padx=(0, 10), sticky="e")
+#         self.grid_columnconfigure((0, 1), weight=1)
 #         self.burstTimeLayout = ctk.CTkLabel(
-#             self, text="Burst Time", font=ctk.CTkFont(size=20)
+#             self, text="Burst Time", font=ctk.CTkFont(size=25)
 #         )
-#         self.burstTimeLayout.grid(row=0, column=2)
+#         self.burstTimeLayout.grid(row=0, column=1)
 #         self.addProcess()
 #         self.scheduleButton = ctk.CTkButton(
 #             self, text="Schedule", command=master.schedule
 #         )
 #         self.scheduleButton.grid(
-#             row=self.noOfProcess + 3, column=0, columnspan=3, pady=(0, 10), sticky="s"
+#             row=self.noOfProcess + 3, column=0, columnspan=2, pady=(0, 10), sticky="s"
 #         )
 
 #     def addProcess(self):
 #         for i in range(1, self.noOfProcess + 1):
 #             processId = ctk.CTkLabel(
-#                 self, text="P" + str(i - 1) + ":", font=ctk.CTkFont(size=15)
+#                 self, text="P" + str(i - 1) + ":", font=ctk.CTkFont(size=20)
 #             )
 #             processId.grid(row=i, column=0, padx=(0, 10), sticky="e")
-#             arrivalTime = ctk.CTkEntry(self, placeholder_text="Enter Arrival Time")
-#             arrivalTime.grid(row=i, column=1, pady=(0, 2))
 #             burstTime = ctk.CTkEntry(self, placeholder_text="Enter Burst Time")
-#             burstTime.grid(row=i, column=2, pady=(0, 2))
-#             self.processesObject.append((arrivalTime, burstTime))
+#             burstTime.grid(row=i, column=1, pady=(0, 2))
+#             self.processesObject.append(burstTime)
 
-
-class ProcessPriorityInputFrame(ProcessInputFrame):
+class ProcessInputFrame(ctk.CTkToplevel):
     def __init__(self, master, noOfProcess):
-        super().__init__(master, noOfProcess)
-        self.priorityLayout = ctk.CTkLabel(
-            self, text="Priority", font=ctk.CTkFont(size=25)
+        super().__init__(master)
+        self.geometry("400x300")
+        self.title("Process Input")
+        self.noOfProcess = noOfProcess
+        self.processesObject = []
+        self.grid_rowconfigure((0, self.noOfProcess + 2), weight=1)
+        self.grid_columnconfigure((0, 2), weight=1)
+        self.processIdLayout = ctk.CTkLabel(
+            self, text="Process ID", font=ctk.CTkFont(size=20)
         )
-        self.priorityLayout.grid(row=0, column=2)
-        self.scheduleButton.grid(columnspan=3)
+        self.processIdLayout.grid(row=0, column=0, padx=(0, 10), sticky="e")
+        self.arrivalTimeLayout = ctk.CTkLabel(
+            self, text="Arrival Time", font=ctk.CTkFont(size=20)
+        )
+        self.arrivalTimeLayout.grid(row=0, column=1, padx=(0, 10), sticky="e")
+        self.burstTimeLayout = ctk.CTkLabel(
+            self, text="Burst Time", font=ctk.CTkFont(size=20)
+        )
+        self.burstTimeLayout.grid(row=0, column=2)
+        self.addProcess()
+        self.scheduleButton = ctk.CTkButton(
+            self, text="Schedule", command=master.schedule
+        )
+        self.scheduleButton.grid(
+            row=self.noOfProcess + 3, column=0, columnspan=3, pady=(0, 10), sticky="s"
+        )
 
     def addProcess(self):
         for i in range(1, self.noOfProcess + 1):
             processId = ctk.CTkLabel(
-                self, text="P" + str(i - 1) + ":", font=ctk.CTkFont(size=20)
+                self, text="P" + str(i - 1) + ":", font=ctk.CTkFont(size=15)
             )
             processId.grid(row=i, column=0, padx=(0, 10), sticky="e")
+            arrivalTime = ctk.CTkEntry(self, placeholder_text="Enter Arrival Time")
+            arrivalTime.grid(row=i, column=1, pady=(0, 2))
             burstTime = ctk.CTkEntry(self, placeholder_text="Enter Burst Time")
-            burstTime.grid(row=i, column=1, pady=(0, 2))
+            burstTime.grid(row=i, column=2, pady=(0, 2))
+            self.processesObject.append((arrivalTime, burstTime))
+
+
+# class ProcessPriorityInputFrame(ProcessInputFrame):
+#     def __init__(self, master, noOfProcess):
+#         super().__init__(master, noOfProcess)
+#         self.priorityLayout = ctk.CTkLabel(
+#             self, text="Priority", font=ctk.CTkFont(size=25)
+#         )
+#         self.priorityLayout.grid(row=0, column=2)
+#         self.scheduleButton.grid(columnspan=3)
+
+#     def addProcess(self):
+#         for i in range(1, self.noOfProcess + 1):
+#             processId = ctk.CTkLabel(
+#                 self, text="P" + str(i - 1) + ":", font=ctk.CTkFont(size=20)
+#             )
+#             processId.grid(row=i, column=0, padx=(0, 10), sticky="e")
+#             burstTime = ctk.CTkEntry(self, placeholder_text="Enter Burst Time")
+#             burstTime.grid(row=i, column=1, pady=(0, 2))
+#             priority = ctk.CTkEntry(self, placeholder_text="Enter Priority")
+#             priority.grid(row=i, column=2, pady=(0, 2))
+#             self.processesObject.append((burstTime, priority))
+
+class ProcessPriorityInputFrame(ProcessInputFrame):
+    def __init__(self, master, noOfProcess):
+        super().__init__(master, noOfProcess)
+        self.geometry(f"600x{100 + 35 * (noOfProcess + 2)}")
+        self.priorityLayout = ctk.CTkLabel(
+            self, text="Priority", font=ctk.CTkFont(size=25)
+        )
+        self.priorityLayout.grid(row=0, column=3)
+        self.scheduleButton.grid(row=noOfProcess + 3, column=0, columnspan=4, pady=(0, 10), sticky="s")
+
+    def addProcess(self):
+        for i in range(1, self.noOfProcess + 1):
+            processId = ctk.CTkLabel(
+                self, text="P" + str(i - 1) + ":", font=ctk.CTkFont(size=15)
+            )
+            processId.grid(row=i, column=0, padx=(0, 10), sticky="e")
+            arrivalTime = ctk.CTkEntry(self, placeholder_text="Enter Arrival Time")
+            arrivalTime.grid(row=i, column=1, pady=(0, 2))
+            burstTime = ctk.CTkEntry(self, placeholder_text="Enter Burst Time")
+            burstTime.grid(row=i, column=2, pady=(0, 2))
             priority = ctk.CTkEntry(self, placeholder_text="Enter Priority")
-            priority.grid(row=i, column=2, pady=(0, 2))
-            self.processesObject.append((burstTime, priority))
+            priority.grid(row=i, column=3, pady=(0, 2), padx=(0, 10))
+            self.processesObject.append((arrivalTime, burstTime, priority))
+
+
+
 
 
 class ProcessRRInputFrame(ProcessInputFrame):
