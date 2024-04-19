@@ -28,4 +28,13 @@ class NPP(SchedulingStrategy):
                 process.execute(scheduler)
 
                 return process
+        
+        # if processes do not arrive yet, increment the elapsed time by the quantum time
+        scheduler.set_elapsedTime(
+        scheduler.get_elapsedTime() + scheduler.get_quantumTime()
+        )
+        if scheduler.isLive():
+            time.sleep(scheduler.get_quantumTime())
+
+        return None
 
