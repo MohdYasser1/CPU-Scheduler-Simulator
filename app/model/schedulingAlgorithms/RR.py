@@ -35,6 +35,7 @@ class RR(SchedulingStrategy):
 
                 # Move the process to the end of the queue
                 if(process.getcompleted_quantum() == quantum_time):
+                    process.setcompleted_quantum(0)
                     processes.remove(process)
                     processes.append(process)
                 return process
