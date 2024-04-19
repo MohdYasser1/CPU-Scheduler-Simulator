@@ -65,6 +65,86 @@ class PP(SchedulingStrategy):
         return None
 
 
+#===============================================================================================================
+#another IMP
+#===============================================================================================================
+#from .SchedulingStrategy import *
+# from ..process.Status import *
+# import time
+
+
+
+# class PP(SchedulingStrategy):
+#     def run(self, scheduler):
+
+       
+#         for process in scheduler.get_processes():
+#             if process.getStatus() == Status.RUNNING:
+#                 process.setStatus(Status.READY)
+
+#         processes = sorted(scheduler.get_processes(), key=lambda x: x.priority)
+
+
+#       # check if no process is running
+#         if not any(process.getStatus() == Status.RUNNING for process in processes):
+#             for process in processes:
+#                 if (
+#                     process.getStatus() == Status.READY
+#                     and process.getArrivalTime() <= scheduler.get_elapsedTime()
+#                 ):
+#                     process.setStatus(Status.RUNNING)
+#                     processr=process
+#                     break
+
+#         #check if process have the same priority with other and take which come first
+#         for next_process in scheduler.get_processes()[1:]:
+#             if (
+#                 next_process.getStatus() == Status.READY
+#                 and next_process.arrivalTime <= scheduler.get_elapsedTime()
+#                 and next_process.priority == processr.priority
+#                 and next_process.arrivalTime < processr.arrivalTime
+                
+#                 ):
+#                 processr.setStatus(Status.READY)
+#                 next_process.setStatus(Status.RUNNING)
+#                 processr=next_process
+                
+
+
+
+
+
+#         # execute the running process
+#         for process in processes:
+#             if (
+#                 process.getStatus() == Status.RUNNING
+#                 and process.getArrivalTime() <= scheduler.get_elapsedTime()
+#             ):
+#                 if process.getBurstTime() >= scheduler.get_quantumTime():
+#                     time.sleep(scheduler.get_quantumTime())
+#                     scheduler.set_elapsedTime(
+#                         scheduler.get_elapsedTime() + scheduler.get_quantumTime()
+#                     )
+#                     process.setBurstTime(
+#                         process.getBurstTime() - scheduler.get_quantumTime()
+#                     )
+
+#                 else:
+#                     time.sleep(process.getBurstTime())
+#                     scheduler.set_elapsedTime(
+#                         scheduler.get_elapsedTime() + process.getBurstTime()
+#                     )
+#                     process.setBurstTime(0)
+
+#                 if process.getBurstTime() == 0:
+#                     process.setStatus(Status.COMPLETED)
+#                     process.setCompletionTime(scheduler.get_elapsedTime())
+
+#                 break
+
+
+
+
 
 
 
