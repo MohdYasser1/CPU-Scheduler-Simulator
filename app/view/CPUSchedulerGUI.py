@@ -212,6 +212,47 @@ class ProcessInputFrame(ctk.CTkToplevel):
             burstTime.grid(row=i, column=1, pady=(0, 2))
             self.processesObject.append(burstTime)
 
+# class ProcessInputFrame(ctk.CTkToplevel):
+#     def __init__(self, master, noOfProcess):
+#         super().__init__(master)
+#         self.geometry("400x300")
+#         self.title("Process Input")
+#         self.noOfProcess = noOfProcess
+#         self.processesObject = []
+#         self.grid_rowconfigure((0, self.noOfProcess + 2), weight=1)
+#         self.grid_columnconfigure((0, 2), weight=1)
+#         self.processIdLayout = ctk.CTkLabel(
+#             self, text="Process ID", font=ctk.CTkFont(size=20)
+#         )
+#         self.processIdLayout.grid(row=0, column=0, padx=(0, 10), sticky="e")
+#         self.arrivalTimeLayout = ctk.CTkLabel(
+#             self, text="Arrival Time", font=ctk.CTkFont(size=20)
+#         )
+#         self.arrivalTimeLayout.grid(row=0, column=1, padx=(0, 10), sticky="e")
+#         self.burstTimeLayout = ctk.CTkLabel(
+#             self, text="Burst Time", font=ctk.CTkFont(size=20)
+#         )
+#         self.burstTimeLayout.grid(row=0, column=2)
+#         self.addProcess()
+#         self.scheduleButton = ctk.CTkButton(
+#             self, text="Schedule", command=master.schedule
+#         )
+#         self.scheduleButton.grid(
+#             row=self.noOfProcess + 3, column=0, columnspan=3, pady=(0, 10), sticky="s"
+#         )
+
+#     def addProcess(self):
+#         for i in range(1, self.noOfProcess + 1):
+#             processId = ctk.CTkLabel(
+#                 self, text="P" + str(i - 1) + ":", font=ctk.CTkFont(size=15)
+#             )
+#             processId.grid(row=i, column=0, padx=(0, 10), sticky="e")
+#             arrivalTime = ctk.CTkEntry(self, placeholder_text="Enter Arrival Time")
+#             arrivalTime.grid(row=i, column=1, pady=(0, 2))
+#             burstTime = ctk.CTkEntry(self, placeholder_text="Enter Burst Time")
+#             burstTime.grid(row=i, column=2, pady=(0, 2))
+#             self.processesObject.append((arrivalTime, burstTime))
+
 
 class ProcessPriorityInputFrame(ProcessInputFrame):
     def __init__(self, master, noOfProcess):

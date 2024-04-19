@@ -13,6 +13,7 @@ class Process:
         self.arrivalTime = arrivalTime
         self.completionTime = completionTime
         self.status = Status.READY
+        self.completed_quantum = 0
 
     def __str__(self):
         return f"Process ID: {self.processId}, Burst Time: {self.burstTime}, Priority: {self.priority}, Arrival Time: {self.arrivalTime}, Completion Time: {self.completionTime}, Status: {self.status}"
@@ -55,15 +56,21 @@ class Process:
 
     def getWaitingTime(self):
         return self.completionTime - self.arrivalTime - self.workingTime
+    
+    def setcompleted_quantum(self, time):
+        self.completed_quantum = time
+
+    def getcompleted_quantum(self):
+        return self.completed_quantum
 
     def execute(self, scheduler):
         if self.burstTime >= scheduler.get_quantumTime():
             if scheduler.isLive():
-                time.sleep(scheduler.get_quantumTime())
+                time.sleep(1)
             scheduler.set_elapsedTime(
-                scheduler.get_elapsedTime() + scheduler.get_quantumTime()
+                scheduler.get_elapsedTime() + 1
             )
-            self.burstTime -= scheduler.get_quantumTime()
+            self.burstTime -= 1
 
         else:
             if scheduler.isLive():

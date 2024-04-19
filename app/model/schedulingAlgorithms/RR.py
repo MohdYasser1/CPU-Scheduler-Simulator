@@ -31,10 +31,12 @@ class RR(SchedulingStrategy):
                 and process.getArrivalTime() <= scheduler.get_elapsedTime()
             ):
                 process.execute(scheduler)
+                process.setcompleted_quantum(process.getcompleted_quantum()+ 1)
 
                 # Move the process to the end of the queue
-                processes.remove(process)
-                processes.append(process)
+                if(process.getcompleted_quantum() == quantum_time):
+                    processes.remove(process)
+                    processes.append(process)
                 return process
 
         # if processes do not arrive yet, increment the elapsed time by the quantum time
