@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
+import matplotlib.pyplot as plt
 import threading
 
 from view.NotLiveGUI import NotLiveFrame
@@ -24,6 +25,7 @@ class MainWindow(ctk.CTk):
         self.title("CPU Scheduler Simulator")
         self.mainFrame = MainFrame(self)
         self.mainFrame.pack(fill=ctk.BOTH, expand=True)
+        self.protocol("WM_DELETE_WINDOW", self.quit)
 
     def notLiveMode(self, scheduler):
         self.mainFrame.destroy()
@@ -34,7 +36,7 @@ class MainWindow(ctk.CTk):
         self.mainFrame.destroy()
         self.liveGUI = LiveFrame(self, scheduler, schedulerType, noOfProcess)
         self.liveGUI.pack(fill=ctk.BOTH, expand=True)
-
+    
 
 class MainFrame(ctk.CTkFrame):
     def __init__(self, master):
