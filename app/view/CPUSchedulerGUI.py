@@ -140,18 +140,20 @@ class MainFrame(ctk.CTkFrame):
             self.schedulerType == "Priority (Preemptive)"
             or self.schedulerType == "Priority (Non-Preemptive)"
         ):
-            burstTime = [int(i[0].get()) for i in self.processInput.processesObject]
-            priority = [int(i[1].get()) for i in self.processInput.processesObject]
+            arrivalTime = [int(i[0].get()) for i in self.processInput.processesObject]
+            burstTime = [int(i[1].get()) for i in self.processInput.processesObject]
+            priority = [int(i[2].get()) for i in self.processInput.processesObject]
             self.processes = [
-                Process(i, j, k)
-                for i, j, k in zip(range(len(burstTime)), burstTime, priority)
+                Process(i, j, k, l)
+                for i, j, k, l in zip(range(len(burstTime)), burstTime, priority, arrivalTime)
             ]
         else:
             #burstTime = [int(i.get()) for i in self.processInput.processesObject]
+            arrivalTime = [int(process[0].get()) for process in self.processInput.processesObject]
             burstTime = [int(process[1].get()) for process in self.processInput.processesObject]
 
             self.processes = [
-                Process(i, j) for i, j in zip(range(len(burstTime)), burstTime)
+                Process(i, j, arrivalTime=k) for i, j, k in zip(range(len(burstTime)), burstTime, arrivalTime)
             ]
         if self.schedulerType == "Round Robin":
             self.timeQuantum = int(self.processInput.timeQuantum.get())
