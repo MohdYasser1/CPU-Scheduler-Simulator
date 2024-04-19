@@ -172,6 +172,8 @@ class MainFrame(ctk.CTkFrame):
             self.scheduler = Scheduler(
                 self.SchedulingStrategy, self.processes, live=True
             )
+            if self.schedulerType == "Round Robin":
+                self.scheduler.set_quantumTime(self.timeQuantum)
             self.master.liveMode(self.scheduler, self.schedulerType, len(self.processes))
         elif self.mode == "not live":
             self.scheduler = Scheduler(
