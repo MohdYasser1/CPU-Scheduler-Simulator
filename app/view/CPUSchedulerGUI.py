@@ -21,7 +21,7 @@ ctk.set_default_color_theme("blue")
 class MainWindow(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.geometry("1000x600")
+        self.geometry("1200x800")
         self.title("CPU Scheduler Simulator")
         self.mainFrame = MainFrame(self)
         self.mainFrame.pack(fill=ctk.BOTH, expand=True)

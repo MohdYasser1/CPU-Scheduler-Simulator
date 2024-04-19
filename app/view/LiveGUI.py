@@ -94,7 +94,7 @@ class LiveFrame(ctk.CTkFrame):
 
         # Create gnatt chart section
         self.fig, self.ax = plt.subplots()
-        self.fig.set_size_inches(8,2)
+        self.fig.set_size_inches(12,2)
         self.ax.xaxis.grid(True)
         plt.yticks([])
         self.ax.set_ylim(-0.25, 0.5)
@@ -142,6 +142,8 @@ class LiveFrame(ctk.CTkFrame):
             self.time.append((self.runningP, [(self.currentTime, self.currentTime+1)]))
         for j, (process, slices) in enumerate(self.time):
             if self.runningP is not None:
+                if process is None:
+                    continue
                 if process.getProcessId() == self.runningP.getProcessId():
                     slices.append((self.currentTime, self.currentTime+1))
                     self.time[j] = (process, slices)
@@ -162,8 +164,8 @@ class LiveFrame(ctk.CTkFrame):
         for i, (process, slices) in enumerate(processTime):
             start = 0
             colour = next(self.color_cycle)
-            self.legend_patches.append(mpatches.Patch(color=colour, label=f"Process{process.getProcessId()}"))
             if process is not None:
+                self.legend_patches.append(mpatches.Patch(color=colour, label=f"Process{process.getProcessId()}"))
                 for (sliceStart, sliceEnd) in slices:
                     self.ax.barh(0, sliceEnd - sliceStart, left=sliceStart, height=0.25, color=colour)
                     # ax.text((sliceStart + sliceEnd)/2, 0, "Process"+str(process.getProcessId()), ha='center', va='center', color='black')
@@ -182,8 +184,8 @@ class LiveFrame(ctk.CTkFrame):
 
     def stopSimulation(self):
         self.run = False
-        self.AvgWaitingTime.configure(text=f"Average Waiting Time: {self.scheduler.getAverageWaitingTime()}")
-        self.AvgTurnaroundTime.configure(text=f"Average Turnaround Time: {self.scheduler.getAverageTurnaroundTime()}")
+        self.AvgWaitingTime.configure(text=f"Average Waiting Time: {round(self.scheduler.getAverageWaitingTime(), 2)}")
+        self.AvgTurnaroundTime.configure(text=f"Average Turnaround Time: {round(self.scheduler.getAverageTurnaroundTime(), 2)}")
 
         
 
