@@ -98,6 +98,7 @@ class LiveFrame(ctk.CTkFrame):
         self.ax.xaxis.grid(True)
         plt.yticks([])
         self.ax.set_ylim(-0.25, 0.5)
+        self.xrange = [0]
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.gnattFrame)
         self.canvas.get_tk_widget().grid(row = 0, column = 0)
 
@@ -158,7 +159,6 @@ class LiveFrame(ctk.CTkFrame):
         self.ax.clear()
         self.color_cycle = iter(cm.tab10.colors)
         self.legend_patches = []
-        self.xrange = [0]
         for i, (process, slices) in enumerate(processTime):
             start = 0
             colour = next(self.color_cycle)
