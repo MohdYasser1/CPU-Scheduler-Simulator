@@ -77,5 +77,14 @@ class Scheduler:
             total += process.getWaitingTime()
         return total / len(self.processes)
 
+    # call after initialization and scheduler progress() directly
+    def updateProcessStatus(self):
+        for process in self.processes:
+            if (
+                process.getArrivalTime() <= self.elapsedTime
+                and process.getStatus() == Status.NOT_ARRIVED
+            ):
+                process.setStatus(Status.READY)
+
 
 print("Scheduler.py has been loaded")
