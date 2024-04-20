@@ -5,12 +5,11 @@ import time
 # round robin
 class RR(SchedulingStrategy):
     def run(self, scheduler):
-        # processes = sorted(scheduler.get_processes(), key=lambda x: x.arrivalTime)
         processes = scheduler.get_processes()
         quantum_time = scheduler.get_quantumTime()
 
         for process in processes:
-            if process.getBurstTime() != 0:
+            if process.getBurstTime() != 0 and process.getArrivalTime() <= scheduler.get_elapsedTime():
                 process.setStatus(Status.READY)
 
         # check if no process is running

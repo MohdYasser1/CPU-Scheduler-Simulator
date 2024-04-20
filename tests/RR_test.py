@@ -10,12 +10,13 @@ from app.model.schedulingAlgorithms.RR import *
 
 p1 = Process(1, 5, 1, 0)
 p2 = Process(2, 8, 1, 1)
-p3 = Process(3, 7, 1, 2)
+p3 = Process(3, 7, 1, 0)
 p4 = Process(4, 3, 1, 3)
 p5 = Process(5, 6, 1, 4)
 p6 = Process(6, 4, 1, 6)
 
 processes = [p1, p2, p3, p4, p6]
+processes = sorted(processes, key=lambda x: x.arrivalTime)
 
 SchedulingStrategy = RR()
 scheduler = Scheduler(SchedulingStrategy, processes,2)

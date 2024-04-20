@@ -8,9 +8,15 @@ class NPP(SchedulingStrategy):
     def run(self, scheduler):
         processes = sorted(scheduler.get_processes(), key=lambda x: x.priority)
 
+        
+        for process in processes:
+            if process.getStatus() == Status.NOT_ARRIVED and process.getArrivalTime() <= scheduler.get_elapsedTime():
+                process.setStatus(Status.READY)
+
         # check if no process is running
         if not any(process.getStatus() == Status.RUNNING for process in processes):
             # choose the process with the highest priority and set it to running
+
             for process in processes:
                 if (
                     process.getStatus() == Status.READY

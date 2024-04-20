@@ -7,6 +7,11 @@ import time
 class PSJF(SchedulingStrategy):
     def run(self, scheduler):
 
+
+        for process in processes:
+            if process.getStatus() == Status.NOT_ARRIVED and process.getArrivalTime() <= scheduler.get_elapsedTime():
+                process.setStatus(Status.READY)
+
         # check if there are any running processes from the previous iteration
         # if there are, pause them and set to ready
         for process in scheduler.get_processes():

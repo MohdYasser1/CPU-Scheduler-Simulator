@@ -12,7 +12,10 @@ class Process:
         self.priority = priority
         self.arrivalTime = arrivalTime
         self.completionTime = completionTime
-        self.status = Status.READY
+        if(arrivalTime == 0):
+            self.status = Status.READY
+        else:
+            self.status = Status.NOT_ARRIVED    
         self.completed_quantum = 0
 
     def __str__(self):

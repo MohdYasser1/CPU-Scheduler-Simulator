@@ -5,6 +5,10 @@
 # # preemptive priority
 # class PP(SchedulingStrategy):
 #     def run(self, scheduler):
+            # for process in processes:
+            #             if process.getBurstTime() != 0 and process.getArrivalTime() <= scheduler.get_elapsedTime():
+            #                 process.setStatus(Status.READY)
+
 #         # Check if there are any running processes from the previous iteration.
 #         # If there are, pause them and set their status to READY.
 #         for process in scheduler.get_processes():
@@ -76,6 +80,10 @@ import time
 
 class PP(SchedulingStrategy):
     def run(self, scheduler):
+
+        for process in processes:
+            if process.getStatus() == Status.NOT_ARRIVED and process.getArrivalTime() <= scheduler.get_elapsedTprocess.getArrivalTime():
+                process.setStatus(Status.READY)
 
        
         for process in scheduler.get_processes():
