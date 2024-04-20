@@ -4,9 +4,9 @@
 # parent_dir = r'C:/Users/ahmed/OneDrive/Desktop/CSE 25/Senior 1/SPRING 2024/Operating Systems/project/CPU-Scheduler-Simulator/app'
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), parent_dir)))
 
-from model.schedulingAlgorithms.SchedulingStrategy import *
-from model.schedulingAlgorithms.FCFS import *
-from model.process.Status import *
+from app.model.schedulingAlgorithms.SchedulingStrategy import *
+from app.model.schedulingAlgorithms.FCFS import *
+from app.model.process.Status import *
 
 
 class Scheduler:

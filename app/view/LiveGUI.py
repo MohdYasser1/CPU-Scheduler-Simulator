@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
-from model.process.Process import Process
+from app.model.process.Process import Process
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm 
 import matplotlib.patches as mpatches

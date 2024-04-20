@@ -3,16 +3,16 @@ from CTkMessagebox import CTkMessagebox
 import matplotlib.pyplot as plt
 import threading
 
-from view.NotLiveGUI import NotLiveFrame
-from view.LiveGUI import LiveFrame
-from model.process.Process import Process
-from model.schedulingAlgorithms import *
-from model.schedulingAlgorithms.RR import RR
-from model.schedulingAlgorithms.PSJF import PSJF
-from model.schedulingAlgorithms.NPSJF import NPSJF
-from model.schedulingAlgorithms.PP import PP
-from model.schedulingAlgorithms.NPP import NPP
-from controller.Scheduler import *
+from app.view.NotLiveGUI import NotLiveFrame
+from app.view.LiveGUI import LiveFrame
+from app.model.process.Process import Process
+from app.model.schedulingAlgorithms import *
+from app.model.schedulingAlgorithms.RR import RR
+from app.model.schedulingAlgorithms.PSJF import PSJF
+from app.model.schedulingAlgorithms.NPSJF import NPSJF
+from app.model.schedulingAlgorithms.PP import PP
+from app.model.schedulingAlgorithms.NPP import NPP
+from app.controller.Scheduler import *
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")

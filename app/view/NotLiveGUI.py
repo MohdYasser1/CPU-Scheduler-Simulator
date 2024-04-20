@@ -5,7 +5,7 @@ import matplotlib.cm as cm
 import matplotlib.patches as mpatches
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from model.process.Status import Status
+from app.model.process.Status import Status
 
 class NotLiveFrame(ctk.CTkFrame):
     def __init__(self, master, scheduler):
