@@ -67,19 +67,19 @@ class Process:
         return self.completed_quantum
 
     def execute(self, scheduler):
-        if self.burstTime >= scheduler.get_quantumTime():
-            if scheduler.isLive():
-                time.sleep(1)
-            scheduler.set_elapsedTime(
-                scheduler.get_elapsedTime() + 1
-            )
-            self.burstTime -= 1
+        # if self.burstTime >= scheduler.get_quantumTime():
+            # if scheduler.isLive():
+            #     time.sleep(1)
+        scheduler.set_elapsedTime(
+            scheduler.get_elapsedTime() + 1
+        )
+        self.burstTime -= 1
 
-        else:
-            if scheduler.isLive():
-                time.sleep(self.burstTime)
-            scheduler.set_elapsedTime(scheduler.get_elapsedTime() + self.burstTime)
-            self.burstTime = 0
+        # else:
+        #     if scheduler.isLive():
+        #         time.sleep(self.burstTime)
+        #     scheduler.set_elapsedTime(scheduler.get_elapsedTime() + self.burstTime)
+        #     self.burstTime = 0
 
         if self.burstTime == 0:
             self.status = Status.COMPLETED
