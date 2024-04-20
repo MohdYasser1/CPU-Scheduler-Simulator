@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
 from model.process.Process import Process
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm 
@@ -133,6 +134,7 @@ class LiveFrame(ctk.CTkFrame):
         status.grid(row=process.getProcessId() + 1, column=3, pady=10, padx=3)
         self.status.append(status)
         if self.run==False:
+            self.run = True
             self.startSimulation()
         
 
@@ -152,10 +154,11 @@ class LiveFrame(ctk.CTkFrame):
             self.time.append((self.runningP, [(self.currentTime, self.currentTime+1)]))
         if not self.scheduler.has_processes():
             self.stopSimulation()
-        self.currentTime += 1
+        if self.run == True:
+            self.currentTime += 1
     
-        self.updateGUI(self.time)
-        self.after(1000, self.startSimulation)
+            self.updateGUI(self.time)
+            self.after(1000, self.startSimulation)
 
     def updateGUI(self, processTime):
         self.ax.clear()
@@ -184,8 +187,11 @@ class LiveFrame(ctk.CTkFrame):
 
     def stopSimulation(self):
         self.run = False
+        self.currentTime += 1
+        self.updateGUI(self.time)
         self.AvgWaitingTime.configure(text=f"Average Waiting Time: {round(self.scheduler.getAverageWaitingTime(), 2)}")
         self.AvgTurnaroundTime.configure(text=f"Average Turnaround Time: {round(self.scheduler.getAverageTurnaroundTime(), 2)}")
+        CTkMessagebox(title="Simulation End", message="The Simulation has ended!")
 
         
 
