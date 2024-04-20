@@ -81,8 +81,8 @@ import time
 class PP(SchedulingStrategy):
     def run(self, scheduler):
 
-        for process in processes:
-            if process.getStatus() == Status.NOT_ARRIVED and process.getArrivalTime() <= scheduler.get_elapsedTprocess.getArrivalTime():
+        for process in scheduler.get_processes():
+            if process.getStatus() == Status.NOT_ARRIVED and process.getArrivalTime() <= scheduler.get_elapsedTime():
                 process.setStatus(Status.READY)
 
        
