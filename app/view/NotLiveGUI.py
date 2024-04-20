@@ -34,8 +34,9 @@ class NotLiveFrame(ctk.CTkFrame):
         for i, (process, slices) in enumerate(processTime):
             start = 0
             colour = next(color_cycle)
-            legend_patches.append(mpatches.Patch(color=colour, label=f"Process{process.getProcessId()}"))
+
             if process is not None:
+                legend_patches.append(mpatches.Patch(color=colour, label=f"Process{process.getProcessId()}"))
                 for (sliceStart, sliceEnd) in slices:
                     ax.barh(0, sliceEnd - sliceStart, left=sliceStart, height=0.25, color=colour)
                     # ax.text((sliceStart + sliceEnd)/2, 0, "Process"+str(process.getProcessId()), ha='center', va='center', color='black')
@@ -62,14 +63,18 @@ class NotLiveFrame(ctk.CTkFrame):
     def calculateProcessTime(self):
         i = 0
         runningP = self.scheduler.progress()
+        
         time = [(runningP, [(i, i+1)])]
 
         while(True):            
             for j, (process, slices) in enumerate(time):
-                if process.getProcessId() == runningP.getProcessId():
-                    slices.append((i, i+1))
-                    time[j] = (process, slices)
-                    break
+                if runningP is not None:
+                    if process is None:
+                        continue
+                    if process.getProcessId() == runningP.getProcessId():
+                        slices.append((i, i+1))
+                        time[j] = (process, slices)
+                        break
             else:
                 time.append((runningP, [(i, i+1)]))
             if not self.scheduler.has_processes():
