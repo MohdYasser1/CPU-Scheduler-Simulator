@@ -4,9 +4,9 @@
 # parent_dir = r'C:/Users/ahmed/OneDrive/Desktop/CSE 25/Senior 1/SPRING 2024/Operating Systems/project/CPU-Scheduler-Simulator/app'
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), parent_dir)))
 
-from app.model.schedulingAlgorithms.SchedulingStrategy import *
-from app.model.schedulingAlgorithms.FCFS import *
-from app.model.process.Status import *
+from model.schedulingAlgorithms.SchedulingStrategy import *
+from model.schedulingAlgorithms.FCFS import *
+from model.process.Status import *
 
 
 class Scheduler:
@@ -76,15 +76,6 @@ class Scheduler:
         for process in self.processes:
             total += process.getWaitingTime()
         return total / len(self.processes)
-
-    # call after initialization and scheduler progress() directly
-    def updateProcessStatus(self):
-        for process in self.processes:
-            if (
-                process.getArrivalTime() <= self.elapsedTime
-                and process.getStatus() == Status.NOT_ARRIVED
-            ):
-                process.setStatus(Status.READY)
 
 
 print("Scheduler.py has been loaded")
