@@ -19,7 +19,7 @@ class Scheduler:
         live=True,
     ):
         self.strategy = strategy
-        self.processes = processes
+        self.processes = sorted(processes, key=lambda x: x.arrivalTime)
         self.quantumTime = quantumTime
         self.elapsedTime = 0
         self.live = live
