@@ -114,10 +114,10 @@ class LiveFrame(ctk.CTkFrame):
             self.schedulerType == 'Priority (Preemptive)'
             or self.schedulerType == 'Priority (Non-Preemptive)'
             ):
-            process = Process(self.noOfProcess - 1, int(self.burstTime.get()), int(self.priority.get()))
+            process = Process(self.noOfProcess - 1, int(self.burstTime.get()), int(self.priority.get()), arrivalTime=self.currentTime)
             self.priority.delete(0, 'end')
         else:
-            process = Process(self.noOfProcess - 1, int(self.burstTime.get()))
+            process = Process(self.noOfProcess - 1, int(self.burstTime.get()), arrivalTime=self.currentTime)
         self.scheduler.add_process(process)
         self.burstTime.delete(0, 'end')
         self.progressFrame.grid_rowconfigure((0, self.noOfProcess + 1), weight=1)
