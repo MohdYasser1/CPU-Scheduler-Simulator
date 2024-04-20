@@ -176,14 +176,14 @@ class MainFrame(ctk.CTkFrame):
 
         if self.mode == "live":
             self.scheduler = Scheduler(
-                self.SchedulingStrategy, self.processes, live=True
+                self.SchedulingStrategy, sorted(self.processes, key=lambda x: x.arrivalTime), live=True
             )
             if self.schedulerType == "Round Robin":
                 self.scheduler.set_quantumTime(self.timeQuantum)
             self.master.liveMode(self.scheduler, self.schedulerType, len(self.processes))
         elif self.mode == "not live":
             self.scheduler = Scheduler(
-                self.SchedulingStrategy, self.processes, live=False
+                self.SchedulingStrategy, sorted(self.processes, key=lambda x: x.arrivalTime), live=False
             )
             if self.schedulerType == "Round Robin":
                 self.scheduler.set_quantumTime(self.timeQuantum)
