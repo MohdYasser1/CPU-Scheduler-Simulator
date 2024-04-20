@@ -1,3 +1,4 @@
+
 from app.view.CPUSchedulerGUI import MainWindow
 
 if __name__ == '__main__':
